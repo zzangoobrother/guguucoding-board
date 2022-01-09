@@ -1,0 +1,43 @@
+package com.example.guguucodingboard.repository;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import com.example.guguucodingboard.entity.Board;
+import com.example.guguucodingboard.entity.Reply;
+import java.util.Optional;
+import java.util.stream.IntStream;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class ReplyRepositoryTest {
+
+  @Autowired
+  private ReplyRepository replyRepository;
+
+  @Test
+  void insertReply() {
+    IntStream.rangeClosed(1, 300).forEach(i -> {
+      long bno = (long) (Math.random() * 100) + 1;
+
+      Board board = Board.builder().bno(bno).build();
+
+      Reply reply = Reply.builder()
+          .text("Reply....." + i)
+          .board(board)
+          .replyer("guest")
+          .build();
+
+      replyRepository.save(reply);
+    });
+  }
+
+  @Test
+  void readReply1() {
+    Optional<Reply> result = replyRepository.findById(1L);
+    Reply reply = result.get();
+    System.out.println(reply);
+    System.out.println(reply.getBoard());
+  }
+}
