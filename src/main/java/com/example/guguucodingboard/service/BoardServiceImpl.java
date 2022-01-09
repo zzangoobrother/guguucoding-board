@@ -6,7 +6,9 @@ import com.example.guguucodingboard.dto.PageResultDTO;
 import com.example.guguucodingboard.entity.Board;
 import com.example.guguucodingboard.entity.Member;
 import com.example.guguucodingboard.repository.BoardRepository;
+import com.example.guguucodingboard.repository.ReplyRepository;
 import java.util.function.Function;
+import javax.transaction.Transactional;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
@@ -17,9 +19,11 @@ import org.springframework.stereotype.Service;
 public class BoardServiceImpl implements BoardService {
 
   private final BoardRepository boardRepository;
+  private final ReplyRepository replyRepository;
 
-  public BoardServiceImpl(BoardRepository boardRepository) {
+  public BoardServiceImpl(BoardRepository boardRepository, ReplyRepository replyRepository) {
     this.boardRepository = boardRepository;
+    this.replyRepository = replyRepository;
   }
 
   @Override
@@ -46,5 +50,12 @@ public class BoardServiceImpl implements BoardService {
     Object[] arr = (Object[]) result;
 
     return entityToDTO((Board) arr[0], (Member) arr[1], (Long) arr[2]);
+  }
+
+  @Transactional
+  @Override
+  public void removeWithReplies(Long bno) {
+    replyRepository.deleteByBno(bno);
+    boardRepository.deleteById(bno);
   }
 }
