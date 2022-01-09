@@ -58,4 +58,13 @@ public class BoardServiceImpl implements BoardService {
     replyRepository.deleteByBno(bno);
     boardRepository.deleteById(bno);
   }
+
+  @Override
+  public void modify(BoardDTO boardDTO) {
+    Board board = boardRepository.findById(boardDTO.getBno()).get();
+    board.changeTitle(boardDTO.getTitle());
+    board.changeTitle(boardDTO.getTitle());
+
+    boardRepository.save(board);
+  }
 }
