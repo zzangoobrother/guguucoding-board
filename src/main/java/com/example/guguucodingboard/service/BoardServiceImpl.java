@@ -63,7 +63,7 @@ public class BoardServiceImpl implements BoardService {
   public void modify(BoardDTO boardDTO) {
     Board board = boardRepository.findById(boardDTO.getBno()).get();
     board.changeTitle(boardDTO.getTitle());
-    board.changeTitle(boardDTO.getTitle());
+    board.changeContent(boardDTO.getContent());
 
     boardRepository.save(board);
   }
