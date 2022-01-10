@@ -5,11 +5,13 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 @Getter
+@Setter
 @ToString
 public class PageResultDTO<DTO, EN> {
 
