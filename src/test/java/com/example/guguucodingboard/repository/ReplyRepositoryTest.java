@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import com.example.guguucodingboard.entity.Board;
 import com.example.guguucodingboard.entity.Reply;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
 import org.junit.jupiter.api.Test;
@@ -39,5 +40,13 @@ class ReplyRepositoryTest {
     Reply reply = result.get();
     System.out.println(reply);
     System.out.println(reply.getBoard());
+  }
+
+  @Test
+  void testListByBoard() {
+    List<Reply> replyList = replyRepository
+        .getRepliesByBoardOrderByRno(Board.builder().bno(97L).build());
+
+    replyList.forEach(System.out::println);
   }
 }

@@ -1,6 +1,7 @@
 package com.example.guguucodingboard.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,7 +17,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@ToString
+@ToString(exclude = "board")
 public class Reply extends BaseEntity {
 
   @Id
@@ -27,6 +28,6 @@ public class Reply extends BaseEntity {
 
   private String replyer;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   private Board board;
 }
