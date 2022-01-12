@@ -21,6 +21,7 @@ public interface ReplyService {
     return Reply.builder()
         .rno(replyDTO.getRno())
         .text(replyDTO.getText())
+        .replyer(replyDTO.getReplyer())
         .board(board)
         .build();
   }
