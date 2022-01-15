@@ -2,6 +2,8 @@ package com.example.gugucodingmovieboard.service;
 
 import com.example.gugucodingmovieboard.dto.MovieDTO;
 import com.example.gugucodingmovieboard.dto.MovieImageDTO;
+import com.example.gugucodingmovieboard.dto.PageRequestDTO;
+import com.example.gugucodingmovieboard.dto.PageResultDTO;
 import com.example.gugucodingmovieboard.entity.Movie;
 import com.example.gugucodingmovieboard.entity.MovieImage;
 import java.util.HashMap;
@@ -12,6 +14,8 @@ import java.util.stream.Collectors;
 public interface MovieService {
 
   Long register(MovieDTO movieDTO);
+
+  PageResultDTO<MovieDTO, Object[]> getList(PageRequestDTO pageRequestDTO);
 
   default Map<String, Object> dtoToEntity(MovieDTO movieDTO) {
     Map<String, Object> entityMap = new HashMap<>();
@@ -38,5 +42,28 @@ public interface MovieService {
     }
     System.out.println(imageDTOList);
     return entityMap;
+  }
+
+  default MovieDTO entitiesToDTO(Movie movie, List<MovieImage> movieImages, Double avg, Long reviewCnt) {
+    MovieDTO movieDTO = MovieDTO.builder()
+        .mno(movie.getMno())
+        .title(movie.getTitle())
+        .regDate(movie.getRegDate())
+        .modDate(movie.getModDate())
+        .build();
+
+    List<MovieImageDTO> movieImageDTOList = movieImages.stream().map(movieImage -> {
+      return MovieImageDTO.builder()
+          .imgName(movieImage.getImgName())
+          .path(movieImage.getPath())
+          .uuid(movieImage.getUuid())
+          .build();
+    }).collect(Collectors.toList());
+
+    movieDTO.setImageDTOList(movieImageDTOList);
+    movieDTO.setAvg(avg);
+    movieDTO.setReviewCnt(reviewCnt.intValue());
+
+    return movieDTO;
   }
 }
