@@ -195,7 +195,7 @@
               console.log(review);
 
               str += '<div class="card-body" data-reviewnum=' + review.reviewnum + ' data-mid=' + review.mid + '>';
-              str += '<h5 class="card-title">' + review.text + '  +<span>' + review.grade + '</span></h5>'
+              str += '<h5 class="card-title">' + review.text + '  <span>' + review.grade + '</span></h5>'
               str += '<h6 class="card-subtitle mb-2 text-muted">' + review.nickname + '</h6>';
               str += '<p class="card-text">' + formatTime(review.regDate) + '</p>';
               str += '</div>';
@@ -206,6 +206,25 @@
         }
 
         getMovieReviews();
+
+        var reviewnum;
+
+        $(".reviewList").on("click", ".card-body", function () {
+          $(".reviewSaveBtn").hide();
+          $(".removeBtn, .modifyBtn").show();
+
+          var targetReview = $(this);
+          reviewnum = targetReview.data("reviewnum");
+          console.log("reviewnum : " + reviewnum);
+
+          inputMid.val(targetReview.data("mid"));
+          inputText.val(targetReview.find('.card-title').clone().children().remove().end().text());
+
+          var grade = targetReview.find('.card-title span').html();
+          $(".starrr a:nth-child("+grade+")").trigger('click');
+
+          $('.reviewModal').modal('show');
+        });
       });
     </script>
   </th:block>
